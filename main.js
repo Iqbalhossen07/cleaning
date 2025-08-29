@@ -1,3 +1,17 @@
+    // Hero Section Swiper
+    var heroSwiper = new Swiper(".hero-swiper", {
+      loop: true,
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true
+      },
+      autoplay: {
+        delay: 4000, // 4 সেকেন্ড পর পর স্লাইড পরিবর্তন হবে
+        disableOnInteraction: false,
+      },
+      allowTouchMove: false, // মাউস দিয়ে ড্র্যাগ করা বন্ধ করবে
+    });
+
 // Mobile menu functionality (ensure this is also within DOMContentLoaded if it's not already)
 // (Your existing mobile menu code would go here, if not already within a DOMContentLoaded)
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
