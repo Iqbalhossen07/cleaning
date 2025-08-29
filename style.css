@@ -1,0 +1,342 @@
+/* Existing gradients and patterns remain */
+.gradient-text {
+    background: linear-gradient(135deg, #00A650, #007A3D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+/* ... other patterns ... */
+
+/* Global Body Background for a seamless blend */
+body {
+  background-color: #f8f8f8; /* A light off-white to blend well */
+}
+
+/* Header Wrapper - This div holds the entire top section (topbar and main nav) */
+/* Its background is the overall dark green/primary gradient */
+.header-gradient-curve-wrapper {
+  background-image: linear-gradient(to right, theme('colors.topbar-bg-dark'), theme('colors.primary'));
+  overflow: hidden; /* Crucial for containing the curved background */
+  position: relative; /* For absolute positioning of the curved background */
+  height: auto; /* Let content define height initially */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Subtle shadow for depth */
+}
+
+/* The main curved background for the header (the sweeping green part) - applied directly to <header> now */
+#navbar {
+  position: relative; /* Make it a positioning context */
+  z-index: 10; /* Ensure content is above the curved background */
+  background-color: theme('colors.primary'); /* Main header background is now solid primary green */
+  background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.cleaning-dark')); /* Gradient for the main header green */
+  border-bottom-right-radius: 40vw; /* Adjusted for a wider, less sharp curve from the image */
+  border-top-right-radius: 0; /* Ensures the top right is sharp */
+  box-shadow: none !important; /* Remove any default shadows from this layer */
+  border-bottom: none !important; /* Remove any default borders from this layer */
+  padding-top: theme('spacing.topbar-height'); /* Push down content to make space for top bar */
+  transition: all 0.3s ease-in-out; /* Smooth transition for property changes on scroll */
+}
+
+/* Specific styling for the CleanPro logo text when it's on the green background */
+.cleaning-logo-text {
+  color: white !important; /* Force white color */
+  -webkit-text-fill-color: white !important; /* Force white for webkit background-clip */
+}
+/* Ensure the "Premium Cleaning" subheading is also light on green */
+#navbar .group p { /* Targeting p inside group within navbar */
+  color: theme('colors.cleaning-light') !important; /* A slightly lighter white/grey for subtext */
+}
+/* Adjust logo icon background to match image - solid light green */
+#navbar .group div.relative div:first-child {
+  background-image: none !important; /* Remove any gradient */
+  background-color: theme('colors.cleaning-light') !important; /* Solid light green for icon background */
+}
+#navbar .group div.relative div:first-child i {
+  color: theme('colors.primary') !important; /* Icon color remains primary green */
+}
+
+
+/* Search icon button adjustments - white circle with dark icon */
+#navbar .hidden.lg:flex button.w-10.h-10.rounded-full { /* More specific selector */
+    background-color: white !important; /* Force white background */
+    color: theme('colors.gray.700'); /* Dark icon color */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+/* Phone button inner circle and icon color */
+.phone-button-gradient-curve {
+  /* Apply a gradient to the phone button */
+  background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.cleaning-dark'));
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.phone-button-gradient-curve:hover {
+  background-image: linear-gradient(to left, theme('colors.primary'), theme('colors.cleaning-dark')); /* Reverse gradient on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.phone-button-gradient-curve div.w-10.h-10.rounded-full {
+  background-color: transparent !important; /* Make inner circle transparent */
+  border: 1px solid white; /* White border as in the image */
+}
+.phone-button-gradient-curve div.w-10.h-10.rounded-full i {
+    color: white !important; /* Make phone icon white */
+}
+
+
+/* Adjustments for default navigation link colors (against green background) */
+nav a {
+    color: white; /* Default nav link color is white */
+}
+
+/* Active and Hover Navigation Links - Adjusted for green background */
+.active-nav-link-on-green {
+    color: white; /* Active link text is white */
+    font-weight: 600; /* Make active link bolder */
+}
+.active-nav-link-on-green::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* Width of the underline */
+    height: 3px;
+    background-color: white; /* Underline color is white */
+    border-radius: 9999px; /* For a rounded underline */
+}
+
+.hover-nav-link-on-green:hover {
+    color: white; /* Hover text color is white */
+}
+.hover-nav-link-on-green:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0%; /* Start at 0 width */
+    height: 3px;
+    background-color: white; /* Underline color is white */
+    border-radius: 9999px;
+    transition: width 0.3s ease-in-out; /* Smooth transition for width */
+}
+.hover-nav-link-on-green:hover::after {
+    width: 60%; /* Expand to 60% width on hover */
+}
+
+
+/* Adjustments for sticky header (when scrolled) */
+#header-container.header-scrolled {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-image: none; /* Remove gradient from wrapper */
+  background-color: rgba(255, 255, 255, 0.95); /* White with blur */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  height: theme('spacing.navbar-height'); /* Shrink to only navbar height */
+  /* Remove curve when scrolled */
+  border-bottom: 1px solid theme('colors.gray.100');
+  padding-top: 0 !important; /* Remove padding */
+}
+
+/* When scrolled, the actual header needs to adjust within this wrapper */
+#header-container.header-scrolled #navbar {
+  background-color: transparent !important; /* Ensure it stays transparent */
+  background-image: none !important; /* Remove gradient from scrolled header */
+  box-shadow: none !important;
+  border-bottom: none !important;
+  height: 100%; /* Make its height fill the scrolled container */
+  padding-top: 0 !important;
+  border-bottom-right-radius: 0 !important; /* Remove curve when scrolled */
+}
+
+#header-container.header-scrolled .header-main-curved-bg {
+  display: none; /* Hide the green curved background element when scrolled */
+}
+
+/* Make logo text black when scrolled */
+#header-container.header-scrolled .cleaning-logo-text {
+  color: theme('colors.gray.900') !important;
+  -webkit-text-fill-color: theme('colors.gray.900') !important;
+}
+#header-container.header-scrolled .group p {
+  color: theme('colors.gray.500') !important; /* Adjust subheading color */
+}
+#header-container.header-scrolled .group div.relative div:first-child {
+  background-image: linear-gradient(to br, theme('colors.primary'), theme('colors.cleaning-dark')) !important; /* Revert logo background gradient */
+}
+#header-container.header-scrolled .group div.relative div:first-child i {
+  color: white !important; /* Icon color revert to white */
+}
+
+/* Revert nav link colors when scrolled */
+#header-container.header-scrolled nav a {
+  color: theme('colors.gray.700') !important;
+}
+#header-container.header-scrolled .active-nav-link-on-green {
+  color: theme('colors.primary') !important; /* Primary for active when scrolled */
+}
+#header-container.header-scrolled .active-nav-link-on-green::after {
+  background-color: theme('colors.primary') !important; /* Primary for active underline when scrolled */
+}
+#header-container.header-scrolled .hover-nav-link-on-green:hover {
+  color: theme('colors.primary') !important; /* Primary for hover when scrolled */
+}
+#header-container.header-scrolled .hover-nav-link-on-green:hover::after {
+  background-color: theme('colors.primary') !important; /* Primary for hover underline when scrolled */
+}
+#header-container.header-scrolled button.w-10.h-10.rounded-full {
+  background-color: theme('colors.cleaning-light') !important; /* Search button bg light green when scrolled */
+  color: theme('colors.primary') !important; /* Search button icon primary green when scrolled */
+}
+#header-container.header-scrolled .phone-button-gradient-curve {
+  background-image: linear-gradient(to right, theme('colors.primary'), theme('colors.cleaning-dark')) !important; /* Phone button background primary gradient when scrolled */
+}
+#header-container.header-scrolled .phone-button-gradient-curve div.w-10.h-10.rounded-full {
+  background-color: white !important; /* Phone button inner circle white when scrolled */
+  border-color: white !important;
+}
+#header-container.header-scrolled .phone-button-gradient-curve div.w-10.h-10.rounded-full i {
+  color: theme('colors.primary') !important; /* Phone button inner icon primary green when scrolled */
+}
+
+/* team section */
+
+/* Custom Clip-Path for Team Card Background */
+/* Custom Clip-Path for Team Card Background */
+/* Custom Clip-Path for Team Card Background */
+.team-card-clip-path {
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0% 100%); /* Adjust points for desired angle */
+    height: 100%;
+    width: 100%;
+}
+
+/* Removed specific opacity rules here as they are handled directly in HTML now for finer control */
+
+/* Ensure Team Card Background is hidden by default and appears on hover */
+.team-card-bg .team-card-clip-path {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.team-card-bg:hover .team-card-clip-path {
+    opacity: 1;
+}
+
+/* Specific styling for the actual card content on top of the clipped background */
+.team-card-bg .relative.z-10 {
+    background-color: transparent; /* Initially transparent */
+    transition: background-color 0.3s ease-in-out;
+}
+
+.team-card-bg:hover .relative.z-10 {
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white on hover if needed for inner content */
+}
+
+/* Blog Section Specific Styles */
+
+/* This utility class helps to limit text to a certain number of lines and add ellipsis */
+/* If you are using Tailwind CSS v3.0+ and have the @tailwindcss/line-clamp plugin installed,
+    you might not need this custom CSS for line-clamp-3.
+    Otherwise, add this for basic line clamping functionality. */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Enhancements for blog card images on hover */
+.blog-card-image-hover img {
+  transition: transform 0.5s ease-in-out;
+}
+
+.blog-card-image-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* Overlay for blog card images */
+.blog-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 1.5rem; /* Equivalent to p-6 */
+}
+
+.blog-card-image-hover:hover .blog-card-overlay {
+  opacity: 1;
+}
+
+/* Optional: If you want a subtle border on blog cards on hover */
+.blog-card-hover-border:hover {
+  border-color: theme('colors.primary');
+}
+
+
+
+/* Custom Keyframes for Animations */
+@keyframes fadeInFromBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+    animation: fadeInFromBottom 1s ease-out forwards;
+    opacity: 0; /* Start hidden */
+}
+
+/* Animation Delays (Tailwind equivalent if you extend theme.animation.delay) */
+.delay-200 {
+    animation-delay: 0.2s;
+}
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+/* In your style.css or a similar CSS file */
+@keyframes float {
+ 0% {
+   transform: translateY(0);
+ }
+ 50% {
+   transform: translateY(-10px);
+ }
+ 100% {
+   transform: translateY(0);
+ }
+}
+
+.animate-float-slow {
+ animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-medium {
+ animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-fast {
+ animation: float 1.5s ease-in-out infinite;
+}
+
+.animate-float-slowest {
+ animation: float 7s ease-in-out infinite;
+}
+
+
+
+

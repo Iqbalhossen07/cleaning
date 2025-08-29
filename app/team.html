@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanPro - Our Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00A650",
+              "cleaning-primary": "#00A650",
+              "cleaning-dark": "#007A3D",
+              "dashboard-bg": "#F8F9FA",
+              "sidebar-bg": "#212529",
+              "sidebar-text": "#E9ECEF",
+              "card-bg": "#FFFFFF",
+              "card-border-light": "#E9ECEF",
+              "text-dark-high": "#343A40",
+              "text-dark-medium": "#495057",
+              "text-light-medium": "#ADB5BD",
+              "text-light-high": "#DEE2E6",
+              // Existing colors from previous sections
+              "service-dark-green": "#007A3D", // Example color, define as per your theme
+              "service-light-green": "#E6F7ED", // Example color, define as per your theme
+              "service-heading": "#212529", // Example color, define as per your theme
+              "hover-green-light": "#00A650", // Added for team card hover effect
+              "hover-green-dark": "#007A3D", // Added for team card hover effect
+            },
+            spacing: {
+              "topbar-height": "48px",
+              "navbar-height": "80px",
+            },
+            fontFamily: {
+              sans: ["Open Sans", "sans-serif"],
+              heading: ["Montserrat", "sans-serif"],
+            },
+            boxShadow: {
+              "custom-xs": "0 0 0 1px rgba(0, 0, 0, 0.05)",
+              "custom-sm":
+                "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.03)",
+              "custom-md":
+                "0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.07)",
+              "custom-lg":
+                "0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
+              "custom-xl":
+                "0 20px 25px -5px rgba(0, 0, 0, 0.18), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              "icon-glow": "0 0 15px rgba(0, 166, 80, 0.4)",
+              "icon-blur":
+                "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.02)",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      .sidebar-logo {
+        background: linear-gradient(
+          135deg,
+          theme("colors.primary"),
+          theme("colors.cleaning-dark")
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: theme("colors.gray.200");
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: theme("colors.primary");
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme("colors.cleaning-dark");
+      }
+
+      .dashboard-topbar {
+        transition: box-shadow 0.3s ease-in-out;
+      }
+      .dashboard-topbar.scrolled {
+        box-shadow: theme("boxShadow.custom-md");
+      }
+
+      .body-no-scroll {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+      }
+
+      #sidebar {
+        display: none; /* Hide by default on mobile */
+        transform: translateX(-100%); /* Ensure it starts off-screen */
+      }
+      @media (min-width: 768px) {
+        #sidebar {
+          display: flex !important; /* Force flex on md and up */
+          transform: translateX(
+            0
+          ) !important; /* Ensure it's visible on md and up */
+        }
+      }
+      #sidebar.mobile-open {
+        display: flex; /* Show when active on mobile */
+        transform: translateX(0); /* Ensure it's fully visible */
+      }
+      #sidebar.mobile-closed {
+        transform: translateX(
+          -100%
+        ); /* Force hidden on mobile when not active */
+      }
+
+      /* Custom styles for Team Page */
+      .team-card-clip-path {
+        clip-path: polygon(
+          0 0,
+          100% 0,
+          100% 60%,
+          0 100%
+        ); /* Example clip-path */
+      }
+
+      /* Define the custom colors used in the team section if not already defined in tailwind.config */
+      .bg-service-light-green {
+        background-color: #e6f7ed; /* Light green for tag */
+      }
+      .text-service-dark-green {
+        color: #007a3d; /* Dark green for tag text */
+      }
+      .text-service-heading {
+        color: #212529; /* Dark text for heading */
+      }
+    </style>
+  </head>
+  <body class="bg-dashboard-bg text-text-dark-medium font-sans h-screen">
+    <div class="flex h-screen bg-dashboard-bg">
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 w-64 bg-sidebar-bg text-sidebar-text flex-col z-[1000] mobile-closed md:flex md:translate-x-0 transition-transform duration-300 ease-in-out custom-scrollbar overflow-y-auto shadow-custom-lg md:shadow-none"
+      >
+        <div
+          class="p-6 border-b border-gray-700 flex items-center justify-center"
+        >
+          <h2 class="text-3xl font-bold sidebar-logo font-heading">CleanPro</h2>
+          <button
+            id="sidebar-close-btn"
+            class="md:hidden text-text-light-medium hover:text-white focus:outline-none"
+          >
+            <i class="fas fa-times text-2xl"></i>
+          </button>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a
+            href="dashboard.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-tachometer-alt text-lg"></i>
+            <span class="font-medium">Dashboard Overview</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-calendar-check text-lg"></i>
+            <span class="font-medium">Bookings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-users text-lg"></i>
+            <span class="font-medium">Clients</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-user-friends text-lg"></i>
+            <span class="font-medium">Cleaners</span>
+          </a>
+          <a
+            href="admin-services.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-hand-sparkles text-lg"></i>
+            <span class="font-medium">Services</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg bg-primary text-white transition-colors duration-200 shadow-custom-sm hover:shadow-custom-md"
+          >
+            <i class="fas fa-users text-lg"></i>
+            <span class="font-medium">Our Team</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-chart-line text-lg"></i>
+            <span class="font-medium">Reports</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-cog text-lg"></i>
+            <span class="font-medium">Settings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors duration-200"
+          >
+            <i class="fas fa-sign-out-alt text-lg"></i>
+            <span class="font-medium">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="flex-1 flex flex-col md:ml-64 min-w-0">
+        <header
+          class="w-full bg-card-bg p-4 flex items-center justify-between shadow-custom-sm dashboard-topbar"
+        >
+          <div class="flex items-center space-x-4">
+            <button
+              id="sidebar-toggle-btn"
+              class="md:hidden text-gray-600 hover:text-text-dark-high focus:outline-none"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="text-2xl font-bold font-heading text-text-dark-high">
+              Our Team
+            </h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span
+              id="live-datetime"
+              class="text-text-dark-medium text-sm font-medium hidden sm:block"
+            ></span>
+            <a
+              href="#"
+              class="text-text-dark-medium hover:text-primary transition-colors"
+            >
+              <i class="fas fa-bell text-xl"></i>
+            </a>
+            <div class="flex items-center space-x-2">
+              <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="Admin Avatar"
+                class="w-10 h-10 rounded-full object-cover border-2 border-primary/50"
+              />
+              <span
+                class="text-sm font-medium hidden sm:block text-text-dark-medium"
+                >Admin Name</span
+              >
+            </div>
+          </div>
+        </header>
+
+        <main
+          class="flex-1 p-6 bg-dashboard-bg custom-scrollbar overflow-y-auto"
+        >
+          <section class="py-16 relative overflow-hidden bg-gray-50">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+              <div
+                class="absolute w-96 h-96 bg-primary/10 rounded-full -left-32 top-1/4 blur-3xl"
+              ></div>
+              <div
+                class="absolute w-96 h-96 bg-blue-500/10 rounded-full -right-32 bottom-1/4 blur-3xl"
+              ></div>
+            </div>
+            <div
+              class="absolute top-0 right-0 w-64 h-64 bg-repeat"
+              style="
+                background-image: url('data:image/svg+xml,%3Csvg width=\'10\' height=\'10\' viewBox=\'0 0 10 10\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Ccircle cx=\'5\' cy=\'5\' r=\'1\' fill=\'%23c7c7c7\'/%3E%3C/svg%3E');
+                opacity: 0.1;
+              "
+            ></div>
+
+            <div class="container mx-auto px-4 relative z-10">
+              <div class="flex justify-end items-end mb-10">
+               
+                <div data-aos="fade-left" data-aos-delay="200">
+                  <a
+                    href="#"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-md shadow-custom-md text-white bg-primary hover:bg-cleaning-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 transform hover:scale-105"
+                  >
+                    <i class="fas fa-user-plus mr-2"></i> Add New Member
+                  </a>
+                </div>
+              </div>
+
+              <div class="relative max-w-8xl mx-auto">
+                <div
+                  id="team-members-static-grid"
+                  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center"
+                >
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="100"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-1.jpg"
+                        alt="Emely Jonson"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Emely Jonson
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Office Cleaner
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Emely Jonson?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="200"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8 pb-6">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-5.jpg"
+                        alt="Tonoy Rahomon"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Tonoy Rahomon
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Supervisor
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Tonoy Rahomon?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="300"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-2.jpg"
+                        alt="Alice Brown"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Alice Brown
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Lead Cleaner
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Alice Brown?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="400"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8 pb-6">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-3.jpg"
+                        alt="David Lee"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        David Lee
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Commercial Cleaning Specialist
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete David Lee?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="500"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-4.jpg"
+                        alt="Sarah Chen"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Sarah Chen
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Residential Cleaning Expert
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Sarah Chen?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="600"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8 pb-6">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-6.jpg"
+                        alt="Michael Wang"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Michael Wang
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Window Cleaning Specialist
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Michael Wang?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="700"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-7.jpg"
+                        alt="Sophia Miller"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Sophia Miller
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Floor Care Specialist
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Sophia Miller?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 relative group w-full max-w-xs"
+                    data-aos="fade-up"
+                    data-aos-delay="800"
+                  >
+                    <div class="absolute inset-0 bg-white rounded-3xl z-0"></div>
+                    <div
+                      class="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <div
+                        class="absolute inset-0 team-card-clip-path bg-gradient-to-br from-hover-green-light to-hover-green-dark"
+                      ></div>
+                    </div>
+                    <div class="relative z-20 flex flex-col items-center pt-8 pb-6">
+                      <img
+                        src="https://demo2.pavothemes.com/cetro/wp-content/uploads/2025/07/team-8.jpg"
+                        alt="Daniel Kim"
+                        class="w-48 h-48 rounded-2xl object-cover mb-4 shadow-md grayscale brightness-110 contrast-125 group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100 transition-all duration-300"
+                      />
+                      <h3
+                        class="text-xl font-bold text-gray-700 mb-1 group-hover:text-black transition-colors duration-300 font-heading"
+                      >
+                        Daniel Kim
+                      </h3>
+                      <p
+                        class="text-sm text-gray-500 group-hover:text-black/80 transition-colors duration-300"
+                      >
+                        Carpet Cleaning Expert
+                      </p>
+                    </div>
+                    <div
+                      class="absolute top-4 right-4 p-2 space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-30 flex flex-col items-center"
+                    >
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="View Profile"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors mb-2"
+                        title="Edit Profile"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <button
+                        onclick="alert('Delete Daniel Kim?')"
+                        class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors"
+                        title="Delete Profile"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="text-center mt-16"
+                  data-aos="fade-up"
+                  data-aos-delay="500"
+                >
+                  <a
+                    href="#"
+                    class="inline-block bg-gradient-to-r from-primary to-cleaning-dark hover:from-cleaning-dark hover:to-primary text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group relative overflow-hidden"
+                  >
+                    <div
+                      class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    ></div>
+                    <span class="relative z-10 flex items-center justify-center">
+                      Explore More Cleaners
+                      <i
+                        class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"
+                      ></i>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+        const liveDatetimeElement = document.getElementById("live-datetime");
+        const bodyElement = document.body;
+
+        const sidebarOverlay = document.createElement("div");
+        sidebarOverlay.id = "sidebar-overlay";
+        sidebarOverlay.classList.add(
+          "fixed",
+          "inset-0",
+          "bg-black",
+          "bg-opacity-50",
+          "z-[980]",
+          "hidden",
+          "md:hidden"
+        );
+        document.body.appendChild(sidebarOverlay);
+
+        function updateLiveDatetime() {
+          const now = new Date();
+          const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+          };
+          const localTime = now.toLocaleString("en-US", {
+            timeZone: "Asia/Dhaka",
+            ...options,
+          });
+          if (liveDatetimeElement) {
+            liveDatetimeElement.textContent = localTime;
+          }
+        }
+
+        setInterval(updateLiveDatetime, 1000);
+        updateLiveDatetime();
+
+        const toggleSidebar = () => {
+          const isOpen = sidebar.classList.contains("mobile-open");
+
+          if (isOpen) {
+            sidebar.classList.remove("mobile-open");
+            sidebar.classList.add("mobile-closed");
+            sidebarOverlay.classList.add("hidden");
+            bodyElement.classList.remove("body-no-scroll");
+          } else {
+            sidebar.classList.remove("mobile-closed");
+            sidebar.classList.add("mobile-open");
+            sidebarOverlay.classList.remove("hidden");
+            bodyElement.classList.add("body-no-scroll");
+          }
+        };
+
+        if (sidebarToggleBtn) {
+          sidebarToggleBtn.addEventListener("click", toggleSidebar);
+        }
+
+        if (sidebarCloseBtn) {
+          sidebarCloseBtn.addEventListener("click", toggleSidebar);
+        }
+
+        if (sidebarOverlay) {
+          sidebarOverlay.addEventListener("click", toggleSidebar);
+        }
+
+        const handleResize = () => {
+          if (window.innerWidth >= 768) {
+            sidebar.classList.remove("mobile-hide", "mobile-closed");
+            sidebar.classList.add("mobile-open", "md:flex", "md:translate-x-0");
+            sidebarOverlay.classList.add("hidden");
+            bodyElement.classList.remove("body-no-scroll");
+          } else {
+            if (!sidebar.classList.contains("mobile-open")) {
+              sidebar.classList.add("mobile-closed");
+            }
+            sidebar.classList.remove("md:flex", "md:translate-x-0");
+          }
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize();
+      });
+    </script>
+  </body>
+</html>

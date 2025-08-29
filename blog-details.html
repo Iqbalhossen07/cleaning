@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanPro - Blog Post Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00A650",
+              "cleaning-primary": "#00A650",
+              "cleaning-light": "#E8F5E8", // A very light green for accents
+              "cleaning-dark": "#007A3D",
+              "topbar-bg-dark": "#0D3A3B", // Darker blue-green for top bar
+              "topbar-text-light": "#C3DCDD", // Lighter text color for contrast
+              "service-heading": "#242424", // Dark grey for "Our Excellent Service"
+              "service-light-green": "#EBF8F0", // Light green background for "CLEANING SERVICE" tag
+              "service-dark-green": "#006C3E", // Darker green for tag text
+              "card-border": "#E2E2E2", // Border color for service cards
+              "card-text-light": "#666666", // Light grey text for descriptions
+              "dot-inactive": "#D1D1D1", // Inactive dot color
+              "hover-green-light": "#00C96B", // A lighter green for gradient start on hover
+              "hover-green-dark": "#00944A", // A slightly darker green for gradient end on hover
+            },
+            spacing: {
+              "topbar-height": "48px",
+              "navbar-height": "80px",
+              "hero-top-padding": "60px", // Custom padding for hero section
+            },
+            fontFamily: {
+              sans: ['Open Sans', 'sans-serif'],
+              heading: ['Montserrat', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  </head>
+  <body class="bg-white text-gray-900 font-sans">
+    <svg width="0" height="0" style="position: absolute; display: none">
+      <defs>
+        <clipPath id="curved-bottom-path" clipPathUnits="objectBoundingBox">
+          <path d="M0,0 H1 V1 C0.8,0.9 0.2,0.9 0,1 Z"></path>
+        </clipPath>
+      </defs>
+    </svg>
+
+    <div
+      class="w-full relative z-50 transition-all duration-300 header-gradient-curve-wrapper"
+      id="header-container"
+    >
+      <div
+        class="py-3 text-sm hidden lg:block bg-gradient-to-r from-topbar-bg-dark to-primary"
+      >
+        <div
+          class="container mx-auto px-4 flex justify-between items-center h-full text-topbar-text-light"
+        >
+          <div class="flex items-center space-x-8">
+            <a
+              href="mailto:info@example.com"
+              class="flex items-center space-x-2 hover:text-white transition-colors"
+            >
+              <i class="fas fa-envelope text-white text-base"></i>
+              <span>info@example.com</span>
+            </a>
+            <span class="flex items-center space-x-2">
+              <i class="fas fa-clock text-white text-base"></i>
+              <span>Tuesday - Saturday: 9:00 AM - 5:00 PM</span>
+            </span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="font-medium mr-2">Follow Us On:</span>
+            <div class="flex space-x-2">
+              <a
+                href="#"
+                class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors transform hover:scale-110"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors transform hover:scale-110"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors transform hover:scale-110"
+              >
+                <i class="fab fa-pinterest-p"></i>
+              </a>
+              <a
+                href="#"
+                class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/40 transition-colors transform hover:scale-110"
+              >
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header
+        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        id="navbar"
+      >
+        <div class="container mx-auto px-4">
+          <div class="flex items-center justify-between h-20">
+            <a href="index.html" class="flex items-center space-x-3 group">
+              <div class="relative">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-primary to-cleaning-dark rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105"
+                >
+                  <i class="fas fa-sparkles text-white text-xl"></i>
+                </div>
+                <div
+                  class="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"
+                ></div>
+              </div>
+              <div>
+                <h1 class="text-2xl font-bold gradient-text font-heading">
+                  CleanPro
+                </h1>
+                <p class="text-xs text-gray-500 font-medium">
+                  Premium Cleaning
+                </p>
+              </div>
+            </a>
+
+            <nav class="hidden lg:flex items-center space-x-1">
+              <a
+                href="index.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 bg-primary/15 text-primary"
+                >Home</a
+              >
+                <a
+                href="about.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-700 hover:bg-primary/10 hover:text-primary"
+                >About</a
+              >
+              <a
+                href="services.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-700 hover:bg-primary/10 hover:text-primary"
+                >Services</a
+              >
+                <a
+                href="gallery.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-700 hover:bg-primary/10 hover:text-primary"
+                >Gallery</a
+              >
+            
+              <a
+                href="blog.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-700 hover:bg-primary/10 hover:text-primary"
+                >Blog</a
+              >
+              <a
+                href="contact.html"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 text-gray-700 hover:bg-primary/10 hover:text-primary"
+                >Contact</a
+              >
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-4">
+              <a
+                href="tel:+448001234567"
+                class="flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+              >
+                <i class="fas fa-phone"></i>
+                <span>0800 123 4567</span>
+              </a>
+              <button
+                class="bg-gradient-to-r from-primary to-cleaning-dark hover:from-cleaning-dark hover:to-primary text-white px-6 py-2.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                Get Quote
+              </button>
+            </div>
+
+            <button class="lg:hidden p-2" id="mobile-menu-btn">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 hidden"
+          id="mobile-menu-overlay"
+        >
+          <div
+            class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300"
+            id="mobile-menu"
+          >
+            <div class="flex flex-col h-full">
+              <div
+                class="flex items-center justify-between p-6 border-b border-gray-100"
+              >
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="w-10 h-10 bg-gradient-to-br from-primary to-cleaning-dark rounded-xl flex items-center justify-center"
+                  >
+                    <i class="fas fa-sparkles text-white"></i>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-bold text-gray-900 font-heading">
+                      CleanPro
+                    </h2>
+                    <p class="text-xs text-gray-500">Premium Cleaning</p>
+                  </div>
+                </div>
+                <button id="mobile-menu-close" class="p-2">
+                  <i class="fas fa-times text-xl text-gray-500"></i>
+                </button>
+              </div>
+
+              <nav class="flex-1 px-6 py-6">
+                <div class="space-y-2">
+                  <a
+                    href="index.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium bg-primary/15 text-primary"
+                    >Home</a
+                  >
+                   <a
+                    href="about.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-300"
+                    >About</a
+                  >
+                  <a
+                    href="services.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-300"
+                    >Services</a
+                  >
+                  <a
+                    href="gallery.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-300"
+                    >Gallery</a
+                  >
+                  <a
+                    href="blog.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-300"
+                    >Blog</a
+                  >
+                  <a
+                    href="contact.html"
+                    class="block px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-primary transition-all duration-300"
+                    >Contact</a
+                  >
+                </div>
+              </nav>
+
+              <div class="p-6 border-t border-gray-100 space-y-4">
+                <a
+                  href="tel:+448001234567"
+                  class="flex items-center space-x-3 text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                >
+                  <i class="fas fa-phone"></i>
+                  <span>0800 123 4567</span>
+                </a>
+                <button
+                  class="w-full bg-gradient-to-r from-primary to-cleaning-dark text-white py-3 rounded-xl shadow-lg"
+                >
+                  Get Free Quote
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+    <main>
+      <section class="relative bg-gradient-to-br from-blue-600 to-primary text-white py-24 lg:py-32 overflow-hidden" 
+      >
+          <div class="absolute inset-0 z-0 opacity-20">
+            <div class="absolute top-[20%] left-[10%] animate-float-slow"><i class="fas fa-city text-white text-7xl"></i></div>
+            <div class="absolute bottom-[10%] right-[15%] animate-float-medium"><i class="fas fa-users text-white text-6xl"></i></div>
+            <div class="absolute top-[50%] left-[30%] animate-float-fast"><i class="fas fa-handshake text-white text-5xl"></i></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10 text-center" data-aos="fade-up">
+          <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black mb-4 font-heading leading-tight">
+            The Ultimate Guide to Deep Cleaning Your Home
+          </h1>
+        
+          <p class="text-base sm:text-xl max-w-3xl mx-auto opacity-90">
+            Learn about CleanPro's journey, our values, and our unwavering dedication
+            to delivering exceptional cleaning services and customer satisfaction.
+          </p>
+        </div>
+      </section>
+
+     
+
+      <section class="py-24 bg-white">
+        <div class="container mx-auto px-4">
+          <div class="grid lg:grid-cols-4 gap-12">
+            <div class="lg:col-span-3">
+              <div class="mb-12 rounded-xl overflow-hidden shadow-lg" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1600918731388-12c1d43890f8?auto=format&fit=crop&q=80&w=1600&h=600" alt="Blog Post Featured Image" class="w-full h-auto object-cover" />
+              </div>
+
+              <div class="prose max-w-none text-gray-700 leading-relaxed text-lg space-y-6" data-aos="fade-up" data-aos-delay="100">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                  nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                  reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                  nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                  sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+
+                <h2 class="text-3xl font-bold text-gray-900 font-heading mt-8 mb-4">
+                  Why Deep Cleaning Matters
+                </h2>
+                <p>
+                  Regular cleaning keeps your home tidy, but deep cleaning tackles
+                  the grime and dirt that accumulates over time in hidden corners.
+                  It improves indoor air quality, reduces allergens, and extends
+                  the life of your furnishings.
+                </p>
+
+                <ul class="list-disc list-inside space-y-2">
+                  <li>Eliminates hidden dirt and grime.</li>
+                  <li>Improves indoor air quality.</li>
+                  <li>Reduces allergens and bacteria.</li>
+                  <li>Extends the life of surfaces and furniture.</li>
+                  <li>Creates a healthier living environment.</li>
+                </ul>
+
+                <h3 class="text-2xl font-bold text-gray-900 font-heading mt-6 mb-3">
+                  Getting Started: The Essentials
+                </h3>
+                <p>
+                  Before you begin, gather all your supplies. You'll need
+                  multi-surface cleaners, disinfectants, microfiber cloths, a vacuum
+                  cleaner, and specialty cleaners for bathrooms and kitchens.
+                </p>
+                <blockquote>
+                  <p class="italic text-gray-600 border-l-4 border-primary pl-4 py-2">
+                    "A clean home is a happy home. Investing time in deep cleaning
+                    pays off with a healthier, more inviting living space."
+                  </p>
+                </blockquote>
+                <p>
+                  Remember to work from top to bottom, and from back to front, to
+                  ensure you don't re-dirty areas you've already cleaned. Don't
+                  forget often-missed spots like light fixtures, baseboards, and
+                  inside cabinets.
+                </p>
+              </div>
+
+              <div class="mt-8 pt-4 border-t border-gray-200 flex flex-wrap items-center gap-2" data-aos="fade-up" data-aos-delay="200">
+                <span class="font-semibold text-gray-800">Tags:</span>
+                <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#DeepClean</a>
+                <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#HomeTips</a>
+                <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#CleaningHacks</a>
+              </div>
+
+              <div class="mt-8 pt-4 border-t border-gray-200 flex items-center space-x-6" data-aos="fade-up" data-aos-delay="300">
+                <span class="font-semibold text-gray-800">Share This Post:</span>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_BLOG_POST_URL" target="_blank" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors duration-300 transform hover:scale-110"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/intent/tweet?url=YOUR_BLOG_POST_URL&text=Check%20out%20this%20amazing%20blog%20post!" target="_blank" class="w-10 h-10 bg-blue-400 text-white rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors duration-300 transform hover:scale-110"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=YOUR_BLOG_POST_URL&title=Blog%20Post%20Title" target="_blank" class="w-10 h-10 bg-blue-800 text-white rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors duration-300 transform hover:scale-110"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+
+              <div class="mt-12 p-6 bg-gray-50 rounded-xl flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 border border-gray-100 shadow-md" data-aos="fade-up" data-aos-delay="400">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author Name" class="w-24 h-24 rounded-full object-cover border-4 border-primary/20 flex-shrink-0" />
+                <div>
+                  <h4 class="font-bold text-gray-900 text-xl font-heading mb-1">About the Author: John D.</h4>
+                  <p class="text-gray-700 text-sm">
+                    John is a professional cleaner with over 10 years of experience and a passion for sharing practical cleaning tips and industry insights.
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-12" data-aos="fade-up" data-aos-delay="500">
+                <h3 class="text-3xl font-black text-service-heading mb-8 font-heading">
+                  3 Comments
+                </h3>
+                <div class="space-y-8">
+                  <div class="flex items-start space-x-4">
+                    <img src="https://randomuser.me/api/portraits/women/6.jpg" alt="Alice Comment" class="w-14 h-14 rounded-full object-cover flex-shrink-0 border-2 border-gray-200" />
+                    <div>
+                      <div class="flex items-center space-x-2 mb-1">
+                        <p class="font-semibold text-gray-900">Alice Johnson</p>
+                        <span class="text-gray-500 text-sm">- July 21, 2025</span>
+                      </div>
+                      <p class="text-gray-700 text-base leading-relaxed">
+                        "Great article! I never thought about cleaning baseboards
+                        that way. Will definitely try these tips on my next deep clean."
+                      </p>
+                      <button class="text-primary text-sm font-medium mt-2 hover:underline">Reply</button>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start space-x-4">
+                    <img src="https://randomuser.me/api/portraits/men/8.jpg" alt="Mike Comment" class="w-14 h-14 rounded-full object-cover flex-shrink-0 border-2 border-gray-200" />
+                    <div>
+                      <div class="flex items-center space-x-2 mb-1">
+                        <p class="font-semibold text-gray-900">Mike R.</p>
+                        <span class="text-gray-500 text-sm">- July 20, 2025</span>
+                      </div>
+                      <p class="text-gray-700 text-base leading-relaxed">
+                        "Very informative! The section on eco-friendly products was
+                        especially helpful for someone like me trying to reduce chemical use."
+                      </p>
+                      <button class="text-primary text-sm font-medium mt-2 hover:underline">Reply</button>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start space-x-4">
+                    <img src="https://randomuser.me/api/portraits/women/10.jpg" alt="Emily Comment" class="w-14 h-14 rounded-full object-cover flex-shrink-0 border-2 border-gray-200" />
+                    <div>
+                      <div class="flex items-center space-x-2 mb-1">
+                        <p class="font-semibold text-gray-900">Emily S.</p>
+                        <span class="text-gray-500 text-sm">- July 19, 2025</span>
+                      </div>
+                      <p class="text-gray-700 text-base leading-relaxed">
+                        "Fantastic guide! CleanPro always delivers. Can't wait for your next post!"
+                      </p>
+                      <button class="text-primary text-sm font-medium mt-2 hover:underline">Reply</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-12 pt-8 border-t border-gray-200" data-aos="fade-up" data-aos-delay="600">
+                <h3 class="text-3xl font-black text-service-heading mb-8 font-heading">
+                  Leave a Reply
+                </h3>
+                <form class="space-y-6">
+                  <textarea class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary h-32" placeholder="Your Comment *"></textarea>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Name *" />
+                    <input type="email" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Email *" />
+                  </div>
+                  <input type="url" class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Your Website (Optional)" />
+                  <button type="submit" class="bg-gradient-to-r from-primary to-cleaning-dark hover:from-cleaning-dark hover:to-primary text-white px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group relative overflow-hidden btn-hover-effect">
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="relative z-10 flex items-center justify-center">
+                      Post Comment
+                      <i class="fas fa-paper-plane ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </span>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+
+            <div class="lg:col-span-1 space-y-12">
+              <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100" data-aos="fade-left" data-aos-delay="100">
+                <h4 class="text-xl font-bold text-gray-900 mb-4 font-heading">Search</h4>
+                <div class="relative">
+                  <input type="text" placeholder="Search..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+                  <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-primary transition-colors">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100" data-aos="fade-left" data-aos-delay="200">
+                <h4 class="text-xl font-bold text-gray-900 mb-4 font-heading">Categories</h4>
+                <ul class="space-y-2 text-gray-700">
+                  <li><a href="#" class="hover:text-primary transition-colors duration-300 flex justify-between items-center"><span>Cleaning Tips</span> <span class="text-gray-500">(8)</span></a></li>
+                  <li><a href="#" class="hover:text-primary transition-colors duration-300 flex justify-between items-center"><span>Eco-Friendly</span> <span class="text-gray-500">(5)</span></a></li>
+                  <li><a href="#" class="hover:text-primary transition-colors duration-300 flex justify-between items-center"><span>Home Care</span> <span class="text-gray-500">(7)</span></a></li>
+                  <li><a href="#" class="hover:text-primary transition-colors duration-300 flex justify-between items-center"><span>Expert Advice</span> <span class="text-gray-500">(3)</span></a></li>
+                  <li><a href="#" class="hover:text-primary transition-colors duration-300 flex justify-between items-center"><span>Company News</span> <span class="text-gray-500">(2)</span></a></li>
+                </ul>
+              </div>
+
+              <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100" data-aos="fade-left" data-aos-delay="300">
+                <h4 class="text-xl font-bold text-gray-900 mb-4 font-heading">Recent Posts</h4>
+                <ul class="space-y-4">
+                  <li class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1596706915243-d922f28b4d8d?auto=format&fit=crop&q=80&w=100&h=80" alt="Recent Post Image" class="w-20 h-16 object-cover rounded-md" />
+                    <div>
+                      <a href="#" class="text-gray-800 font-semibold hover:text-primary transition-colors duration-300 text-sm leading-tight block">Why Choose Eco-Friendly Cleaning Products?</a>
+                      <p class="text-gray-500 text-xs mt-1">July 15, 2025</p>
+                    </div>
+                  </li>
+                  <li class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1579737122108-99e28938ce8d?auto=format&fit=crop&q=80&w=100&h=80" alt="Recent Post Image" class="w-20 h-16 object-cover rounded-md" />
+                    <div>
+                      <a href="#" class="text-gray-800 font-semibold hover:text-primary transition-colors duration-300 text-sm leading-tight block">Daily Habits for a Consistently Clean Home</a>
+                      <p class="text-gray-500 text-xs mt-1">July 10, 2025</p>
+                    </div>
+                  </li>
+                  <li class="flex items-center space-x-3">
+                    <img src="https://images.unsplash.com/photo-1616499933544-d922f28b4d8d?auto=format&fit=crop&q=80&w=100&h=80" alt="Recent Post Image" class="w-20 h-16 object-cover rounded-md" />
+                    <div>
+                      <a href="#" class="text-gray-800 font-semibold hover:text-primary transition-colors duration-300 text-sm leading-tight block">Professional Cleaning vs. DIY</a>
+                      <p class="text-gray-500 text-xs mt-1">July 05, 2025</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100" data-aos="fade-left" data-aos-delay="400">
+                <h4 class="text-xl font-bold text-gray-900 mb-4 font-heading">Tags</h4>
+                <div class="flex flex-wrap gap-2">
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#HomeCleaning</a>
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#EcoFriendly</a>
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#CleaningTips</a>
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#OfficeClean</a>
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#Maintenance</a>
+                  <a href="#" class="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors duration-300">#Sanitization</a>
+                </div>
+              </div>
+
+              <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100" data-aos="fade-left" data-aos-delay="500">
+                <h4 class="text-xl font-bold text-gray-900 mb-4 font-heading">Instagram</h4>
+                <div class="grid grid-cols-3 gap-2">
+                  <img src="https://images.unsplash.com/photo-1600918731388-12c1d43890f8?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                  <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                  <img src="https://images.unsplash.com/photo-1579737122108-99e28938ce8d?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                  <img src="https://images.unsplash.com/photo-1526948128573-b3c94709d255?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                  <img src="https://images.unsplash.com/photo-1596706915243-d922f28b4d8d?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                  <img src="https://images.unsplash.com/photo-1628169136932-d8174543d3b7?auto=format&fit=crop&q=80&w=150&h=150" alt="Instagram Post" class="w-full h-auto object-cover rounded-md" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-24 bg-primary text-white text-center">
+        <div class="container mx-auto px-4" data-aos="fade-up">
+          <h2 class="text-4xl lg:text-5xl font-black mb-4 font-heading">Ready for a Sparkling Clean?</h2>
+          <p class="text-lg mb-8 max-w-xl mx-auto opacity-90">
+            Contact us today for a free, no-obligation quote and let us
+            transform your space into a pristine environment.
+          </p>
+          <a
+            href="contact.html"
+            class="inline-block bg-white text-primary px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 group relative overflow-hidden font-semibold"
+          >
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <span class="relative z-10 flex items-center justify-center">
+              Get Your Free Quote
+              <i class="fas fa-arrow-right ml-3 group-hover:translate-x-1 transition-transform duration-300"></i>
+            </span>
+          </a>
+        </div>
+      </section>
+
+   
+
+    
+    </main>
+
+    <footer class="bg-gray-900 text-white py-20 relative overflow-hidden" data-aos="fade-up">
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+          <div class="lg:col-span-2 space-y-8">
+            <div class="flex items-center space-x-4">
+              <div class="w-14 h-14 bg-gradient-to-br from-primary to-cleaning-dark rounded-2xl flex items-center justify-center shadow-xl transform transition-all duration-300 hover:scale-105">
+                <i class="fas fa-sparkles text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-3xl font-bold gradient-text font-heading transition-colors duration-300 hover:text-white">CleanPro</h3>
+                <p class="text-gray-400 text-sm">Premium Cleaning Services</p>
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed text-base max-w-md">
+              Transforming spaces across the UK with premium cleaning services.
+              Your satisfaction is our guarantee.
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="w-12 h-12 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 shadow-md hover:shadow-lg">
+                <i class="fab fa-facebook text-primary hover:text-white font-bold transition-colors duration-300"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 shadow-md hover:shadow-lg">
+                <i class="fab fa-twitter text-primary hover:text-white font-bold transition-colors duration-300"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 shadow-md hover:shadow-lg">
+                <i class="fab fa-instagram text-primary hover:text-white font-bold transition-colors duration-300"></i>
+              </a>
+              <a href="#" class="w-12 h-12 bg-white/10 hover:bg-primary rounded-xl flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 shadow-md hover:shadow-lg">
+                <i class="fab fa-linkedin text-primary hover:text-white font-bold transition-colors duration-300"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xl font-bold mb-6 text-white font-heading">Quick Links</h4>
+            <ul class="space-y-3">
+              <li><a href="about.html" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">About Us</a></li>
+              <li><a href="services.html" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Our Services</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Pricing</a></li>
+              <li><a href="contact.html" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Contact</a></li>
+              <li><a href="blog.html" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-xl font-bold mb-6 text-white font-heading">Services</h4>
+            <ul class="space-y-3">
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Deep Cleaning</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">End-of-Tenancy</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Carpet Cleaning</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Commercial</a></li>
+              <li><a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-base">Regular Cleaning</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-xl font-bold mb-6 text-white font-heading">Contact</h4>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-phone text-primary"></i>
+                </div>
+                <div>
+                  <p class="text-white font-semibold text-base">0800 123 4567</p>
+                  <p class="text-gray-400 text-sm">24/7 Support</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-envelope text-primary"></i>
+                </div>
+                <div>
+                  <p class="text-white font-semibold text-base">hello@cleanpro.com</p>
+                  <p class="text-gray-400 text-sm">Get in touch</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i class="fas fa-map-marker-alt text-primary"></i>
+                </div>
+                <div>
+                  <p class="text-white font-semibold text-base">London, UK</p>
+                  <p class="text-gray-400 text-sm">Nationwide service</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-800 mt-16 pt-8 flex flex-col lg:flex-row justify-between items-center">
+          <p class="text-gray-400 text-center lg:text-left text-sm">
+            &copy; 2024 CleanPro. All rights reserved.
+          </p>
+          <div class="flex space-x-6 mt-4 lg:mt-0">
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-sm">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-sm">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-primary transition-colors duration-300 text-sm">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+    <script>
+      lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+      });
+    </script>
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000, // Animation duration (ms)
+        once: true, // Animations will only run once
+      });
+    </script>
+
+    <script src="main.js"></script>
+
+  
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Confirmed! - CleanPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind CSS configuration (copy from your index.html)
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00A650",
+              "cleaning-primary": "#00A650",
+              "cleaning-light": "#E8F5E8",
+              "cleaning-dark": "#007A3D",
+              "topbar-bg-dark": "#0D3A3B",
+              "topbar-text-light": "#C3DCDD",
+              "service-heading": "#242424",
+              "service-light-green": "#EBF8F0",
+              "service-dark-green": "#006C3E",
+              "card-border": "#E2E2E2",
+              "card-text-light": "#666666",
+              "dot-inactive": "#D1D1D1",
+              "hover-green-light": "#00C96B",
+              "hover-green-dark": "#00944A",
+            },
+            spacing: {
+              "topbar-height": "48px",
+              "navbar-height": "80px",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+    <main class="flex-grow flex items-center justify-center py-20">
+      <div
+        class="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-2xl mx-auto text-center border border-primary/20"
+      >
+        <div class="mb-8">
+          <div
+            class="w-24 h-24 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-5xl mb-4 shadow-lg"
+          >
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h1 class="text-4xl font-bold text-gray-900 mb-3">
+            Booking Confirmed!
+          </h1>
+          <p class="text-lg text-gray-600">
+            Thank you for choosing CleanPro. Your booking details are below.
+          </p>
+        </div>
+
+        <div class="text-left space-y-3 text-gray-700 bg-gray-50 p-6 rounded-lg border border-gray-200">
+          <p><strong>Name:</strong> <span id="conf-name">John Doe</span></p>
+          <p><strong>Email:</strong> <span id="conf-email">john.doe@example.com</span></p>
+          <p><strong>Phone:</strong> <span id="conf-phone">+123 456 7890</span></p>
+          <p><strong>Address:</strong> <span id="conf-address">123 Cleaning St, City, Postcode</span></p>
+          <p><strong>Service:</strong> <span id="conf-service">Deep Cleaning (Residential)</span></p>
+          
+          <p class="text-lg font-bold">
+            <strong>Status:</strong> 
+            <span id="conf-status" class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Pending</span>
+          </p>
+        </div>
+
+        <div class="mt-8">
+          <p class="text-md text-gray-700 mb-4">
+            We will contact you shortly to finalize the details of your service.
+          </p>
+          <a
+            href="index.html"
+            class="inline-block bg-primary hover:bg-cleaning-dark text-white px-8 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+          >
+            Go to Homepage
+          </a>
+        </div>
+      </div>
+    </main>
+
+    </body>
+</html>

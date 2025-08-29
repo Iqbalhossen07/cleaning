@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanPro - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00A650",
+              "cleaning-primary": "#00A650",
+              "cleaning-light": "#E8F5E8", // A very light green for accents
+              "cleaning-dark": "#007A3D",
+              "topbar-bg-dark": "#0D3A3B", // Darker blue-green for top bar (unused in dashboard directly but for palette)
+              "topbar-text-light": "#C3DCDD", // Lighter text color for contrast (unused in dashboard directly)
+              "service-heading": "#242424", // Dark grey for "Our Excellent Service" (unused in dashboard directly)
+              "service-light-green": "#EBF8F0", // Light green background for "CLEANING SERVICE" tag (unused in dashboard directly)
+              "service-dark-green": "#006C3E", // Darker green for tag text (unused in dashboard directly)
+              "card-border": "#E2E2E2", // Border color for service cards (used for dashboard cards)
+              "card-text-light": "#666666", // Light grey text for descriptions (used for dashboard text)
+              "dot-inactive": "#D1D1D1", // Unused here
+              "hover-green-light": "#00C96B", // Unused here
+              "hover-green-dark": "#00944A", // Unused here
+              "dashboard-bg": "#F4F7F6", // Light background for dashboard content area
+              "sidebar-bg": "#1A202C", // Dark background for sidebar
+              "sidebar-text": "#E2E8F0", // Light text for sidebar
+            },
+            spacing: {
+              "topbar-height": "48px",
+              "navbar-height": "80px", // Unused here
+              "hero-top-padding": "60px", // Unused here
+            },
+            fontFamily: {
+              sans: ['Open Sans', 'sans-serif'],
+              heading: ['Montserrat', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom CSS for dashboard (if needed, or extend Tailwind config) */
+      .sidebar-logo {
+        background: linear-gradient(135deg, theme('colors.primary'), theme('colors.cleaning-dark'));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: theme('colors.gray.200');
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: theme('colors.primary');
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.cleaning-dark');
+      }
+
+      /* Fixed top-bar shadow adjustment */
+      .dashboard-topbar.scrolled {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+    </style>
+  </head>
+  <body class="bg-dashboard-bg text-gray-900 font-sans h-screen overflow-hidden">
+    <div class="flex h-screen bg-dashboard-bg">
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 w-64 bg-sidebar-bg text-sidebar-text flex flex-col z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out custom-scrollbar overflow-y-auto"
+      >
+        <div class="p-6 border-b border-gray-700 flex items-center justify-center">
+          <h2 class="text-3xl font-bold sidebar-logo font-heading">CleanPro</h2>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-tachometer-alt text-lg"></i>
+            <span class="font-medium">Dashboard</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg bg-primary text-white transition-colors duration-200"
+          >
+            <i class="fas fa-calendar-check text-lg"></i>
+            <span class="font-medium">My Bookings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-user-circle text-lg"></i>
+            <span class="font-medium">Profile</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-history text-lg"></i>
+            <span class="font-medium">History</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-cog text-lg"></i>
+            <span class="font-medium">Settings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors duration-200"
+          >
+            <i class="fas fa-sign-out-alt text-lg"></i>
+            <span class="font-medium">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="flex-1 flex flex-col md:ml-64">
+        <header class="w-full bg-white p-4 flex items-center justify-between shadow-md dashboard-topbar">
+          <div class="flex items-center space-x-4">
+            <button id="sidebar-toggle-btn" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="text-2xl font-bold font-heading">Welcome, User!</h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="#" class="text-gray-600 hover:text-primary transition-colors">
+              <i class="fas fa-bell text-xl"></i>
+            </a>
+            <div class="flex items-center space-x-2">
+              <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-primary/50">
+              <span class="text-sm font-medium hidden sm:block">John Doe</span>
+            </div>
+          </div>
+        </header>
+
+        <main class="flex-1 p-6 bg-dashboard-bg custom-scrollbar overflow-y-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="100">
+              <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-calendar-check text-primary text-3xl"></i>
+              </div>
+              <div>
+                <p class="text-gray-600 text-sm">Next Booking</p>
+                <h3 class="text-2xl font-bold text-gray-900 font-heading">25 July, 2025</h3>
+              </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="200">
+              <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-clipboard-list text-blue-500 text-3xl"></i>
+              </div>
+              <div>
+                <p class="text-gray-600 text-sm">Total Bookings</p>
+                <h3 class="text-2xl font-bold text-gray-900 font-heading">12</h3>
+              </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 flex items-center space-x-4" data-aos="fade-up" data-aos-delay="300">
+              <div class="w-16 h-16 bg-yellow-500/10 rounded-full flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-star text-yellow-500 text-3xl"></i>
+              </div>
+              <div>
+                <p class="text-gray-600 text-sm">Avg. Rating</p>
+                <h3 class="text-2xl font-bold text-gray-900 font-heading">4.9 / 5</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-8" data-aos="fade-up" data-aos-delay="400">
+            <h3 class="text-xl font-bold text-gray-900 mb-4 font-heading">Recent Bookings</h3>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Deep Cleaning</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2025-07-25</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">10:00 AM</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        Confirmed
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">£120</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Window Cleaning</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2025-07-18</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">02:00 PM</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        Completed
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">£60</td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Office Cleaning</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2025-07-10</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">09:00 AM</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        Completed
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">£150</td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6" data-aos="fade-up" data-aos-delay="500">
+            <button class="bg-primary hover:bg-cleaning-dark text-white p-4 rounded-xl shadow-md flex items-center justify-center space-x-3 transition-colors duration-300 transform hover:scale-105">
+              <i class="fas fa-calendar-plus text-2xl"></i>
+              <span class="text-lg font-semibold">Book New Service</span>
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-xl shadow-md flex items-center justify-center space-x-3 transition-colors duration-300 transform hover:scale-105">
+              <i class="fas fa-edit text-2xl"></i>
+              <span class="text-lg font-semibold">Update Profile</span>
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
+
+      // Sidebar toggle for mobile
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        if (sidebarToggleBtn && sidebar) {
+          sidebarToggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+          });
+        }
+      });
+    </script>
+    </body>
+</html>

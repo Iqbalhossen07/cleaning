@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CleanPro - Manage Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00A650",
+              "cleaning-primary": "#00A650",
+              "cleaning-dark": "#007A3D",
+              "dashboard-bg": "#F8F9FA",
+              "sidebar-bg": "#212529",
+              "sidebar-text": "#E9ECEF",
+              "card-bg": "#FFFFFF",
+              "card-border-light": "#E9ECEF",
+              "text-dark-high": "#343A40",
+              "text-dark-medium": "#495057",
+              "text-light-medium": "#ADB5BD",
+              "text-light-high": "#DEE2E6",
+            },
+            spacing: {
+              "topbar-height": "48px",
+              "navbar-height": "80px",
+            },
+            fontFamily: {
+              sans: ["Open Sans", "sans-serif"],
+              heading: ["Montserrat", "sans-serif"],
+            },
+            boxShadow: {
+              "custom-xs": "0 0 0 1px rgba(0, 0, 0, 0.05)",
+              "custom-sm":
+                "0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.03)",
+              "custom-md":
+                "0 4px 6px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.07)",
+              "custom-lg":
+                "0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1)",
+              "custom-xl":
+                "0 20px 25px -5px rgba(0, 0, 0, 0.18), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              "icon-glow": "0 0 15px rgba(0, 166, 80, 0.4)",
+              "icon-blur":
+                "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.02)",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      .sidebar-logo {
+        background: linear-gradient(
+          135deg,
+          theme("colors.primary"),
+          theme("colors.cleaning-dark")
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: theme("colors.gray.200");
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: theme("colors.primary");
+        border-radius: 10px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: theme("colors.cleaning-dark");
+      }
+
+      .dashboard-topbar {
+        transition: box-shadow 0.3s ease-in-out;
+      }
+      .dashboard-topbar.scrolled {
+        box-shadow: theme("boxShadow.custom-md");
+      }
+
+      .body-no-scroll {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+      }
+
+      #sidebar {
+        display: none; /* Hide by default on mobile */
+        transform: translateX(-100%); /* Ensure it starts off-screen */
+      }
+      @media (min-width: 768px) {
+        #sidebar {
+          display: flex !important; /* Force flex on md and up */
+          transform: translateX(
+            0
+          ) !important; /* Ensure it's visible on md and up */
+        }
+      }
+      #sidebar.mobile-open {
+        display: flex; /* Show when active on mobile */
+        transform: translateX(0); /* Ensure it's fully visible */
+      }
+      #sidebar.mobile-closed {
+        transform: translateX(
+          -100%
+        ); /* Force hidden on mobile when not active */
+      }
+
+      /* Custom styles for table actions (reusing some from blog actions) */
+      .table-action-btn {
+        display: inline-flex; /* Use inline-flex for smaller buttons */
+        align-items: center;
+        justify-content: center;
+        width: 32px; /* Smaller for table cells */
+        height: 32px;
+        border-radius: 9999px; /* Fully round */
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Very subtle shadow */
+      }
+
+      .table-action-btn:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Slightly more prominent shadow on hover */
+        transform: translateY(-1px); /* Slight lift on hover */
+      }
+
+      .table-action-btn.view {
+        background-color: theme("colors.blue.600");
+        color: white;
+      }
+      .table-action-btn.view:hover {
+        background-color: theme("colors.blue.700");
+      }
+
+      .table-action-btn.edit {
+        background-color: theme("colors.primary");
+        color: white;
+      }
+      .table-action-btn.edit:hover {
+        background-color: theme("colors.cleaning-dark");
+      }
+
+      .table-action-btn.delete {
+        background-color: theme("colors.red.600");
+        color: white;
+      }
+      .table-action-btn.delete:hover {
+        background-color: theme("colors.red.700");
+      }
+
+      /* Status Badges */
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px; /* Pill shape */
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 600; /* font-semibold */
+      }
+
+      .badge.pending {
+        background-color: theme("colors.yellow.100");
+        color: theme("colors.yellow.800");
+      }
+      .badge.confirmed {
+        background-color: theme("colors.green.100");
+        color: theme("colors.primary");
+      }
+      .badge.completed {
+        background-color: theme("colors.blue.100");
+        color: theme("colors.blue.800");
+      }
+      .badge.cancelled {
+        background-color: theme("colors.red.100");
+        color: theme("colors.red.800");
+      }
+    </style>
+  </head>
+  <body class="bg-dashboard-bg text-text-dark-medium font-sans h-screen">
+    <div class="flex h-screen bg-dashboard-bg">
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 w-64 bg-sidebar-bg text-sidebar-text flex-col z-[1000] mobile-closed md:flex md:translate-x-0 transition-transform duration-300 ease-in-out custom-scrollbar overflow-y-auto shadow-custom-lg md:shadow-none"
+      >
+        <div
+          class="p-6 border-b border-gray-700 flex items-center justify-center"
+        >
+          <h2 class="text-3xl font-bold sidebar-logo font-heading">CleanPro</h2>
+          <button
+            id="sidebar-close-btn"
+            class="md:hidden text-text-light-medium hover:text-white focus:outline-none"
+          >
+            <i class="fas fa-times text-2xl"></i>
+          </button>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-2">
+          <a
+            href="dashboard.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-tachometer-alt text-lg"></i>
+            <span class="font-medium">Dashboard Overview</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg bg-primary text-white transition-colors duration-200 shadow-custom-sm hover:shadow-custom-md"
+          >
+            <i class="fas fa-calendar-check text-lg"></i>
+            <span class="font-medium">Bookings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-users text-lg"></i>
+            <span class="font-medium">Clients</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-user-friends text-lg"></i>
+            <span class="font-medium">Cleaners</span>
+          </a>
+          <a
+            href="admin-services.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-hand-sparkles text-lg"></i>
+            <span class="font-medium">Services</span>
+          </a>
+          <a
+            href="team-list.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-users text-lg"></i>
+            <span class="font-medium">Our Team</span>
+          </a>
+          <a
+            href="blog-posts.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-blog text-lg"></i>
+            <span class="font-medium">Blog Posts</span>
+          </a>
+          <a
+            href="testimonials.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-quote-right text-lg"></i>
+            <span class="font-medium">Testimonials</span>
+          </a>
+          <a
+            href="gallery.html"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-image text-lg"></i>
+            <span class="font-medium">Gallery</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-chart-line text-lg"></i>
+            <span class="font-medium">Reports</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-sidebar-text hover:bg-primary/20 hover:text-white transition-colors duration-200"
+          >
+            <i class="fas fa-cog text-lg"></i>
+            <span class="font-medium">Settings</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors duration-200"
+          >
+            <i class="fas fa-sign-out-alt text-lg"></i>
+            <span class="font-medium">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="flex-1 flex flex-col md:ml-64 min-w-0">
+        <header
+          class="w-full bg-card-bg p-4 flex items-center justify-between shadow-custom-sm dashboard-topbar"
+        >
+          <div class="flex items-center space-x-4">
+            <button
+              id="sidebar-toggle-btn"
+              class="md:hidden text-gray-600 hover:text-text-dark-high focus:outline-none"
+            >
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+            <h1 class="text-2xl font-bold font-heading text-text-dark-high">
+              Manage Bookings
+            </h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span
+              id="live-datetime"
+              class="text-text-dark-medium text-sm font-medium hidden sm:block"
+            ></span>
+            <a
+              href="#"
+              class="text-text-dark-medium hover:text-primary transition-colors"
+            >
+              <i class="fas fa-bell text-xl"></i>
+            </a>
+            <div class="flex items-center space-x-2">
+              <img
+                src="https://randomuser.me/api/portraits/men/1.jpg"
+                alt="Admin Avatar"
+                class="w-10 h-10 rounded-full object-cover border-2 border-primary/50"
+              />
+              <span
+                class="text-sm font-medium hidden sm:block text-text-dark-medium"
+                >Admin Name</span
+              >
+            </div>
+          </div>
+        </header>
+
+        <main
+          class="flex-1 p-6 bg-dashboard-bg custom-scrollbar overflow-y-auto"
+        >
+          <div
+            class="max-w-full mx-auto bg-white p-8 rounded-xl shadow-custom-md border border-card-border-light"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-3xl font-bold text-text-dark-high font-heading">
+                All Bookings
+              </h2>
+              <a
+                href="add-booking.html"
+                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-semibold rounded-md shadow-custom-md text-white bg-primary hover:bg-cleaning-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 transform hover:scale-105"
+              >
+                <i class="fas fa-plus-circle mr-2"></i> Add New Booking
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Booking ID
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Client Name
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Service
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Date & Time
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-left text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Status
+                    </th>
+                    <th
+                      scope="col"
+                      class="px-6 py-3 text-right text-xs font-medium text-text-dark-medium uppercase tracking-wider"
+                    >
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-dark-high">
+                      #BK001
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Alice Smith
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Deep Kitchen Cleaning
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      2025-07-28, 10:00 AM
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="badge pending">Pending</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div class="flex justify-end space-x-2">
+                        <a
+                          href="view-booking.html?id=1"
+                          class="table-action-btn view"
+                          title="View Booking"
+                        >
+                          <i class="fas fa-eye text-base text-white"></i>
+                        </a>
+                        <a
+                          href="edit-booking.html?id=1"
+                          class="table-action-btn edit"
+                          title="Edit Booking"
+                        >
+                          <i class="fas fa-edit text-base text-white"></i>
+                        </a>
+                        <button
+                          onclick="confirmDeleteBooking('BK001', 'Alice Smith')"
+                          class="table-action-btn delete"
+                          title="Delete Booking"
+                        >
+                          <i class="fas fa-trash-alt text-base text-white"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-dark-high">
+                      #BK002
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Bob Johnson
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Office Standard Cleaning
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      2025-07-29, 02:00 PM
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="badge confirmed">Confirmed</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div class="flex justify-end space-x-2">
+                        <a
+                          href="view-booking.html?id=2"
+                          class="table-action-btn view"
+                          title="View Booking"
+                        >
+                          <i class="fas fa-eye text-base text-white"></i>
+                        </a>
+                        <a
+                          href="edit-booking.html?id=2"
+                          class="table-action-btn edit"
+                          title="Edit Booking"
+                        >
+                          <i class="fas fa-edit text-base text-white"></i>
+                        </a>
+                        <button
+                          onclick="confirmDeleteBooking('BK002', 'Bob Johnson')"
+                          class="table-action-btn delete"
+                          title="Delete Booking"
+                        >
+                          <i class="fas fa-trash-alt text-base text-white"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-dark-high">
+                      #BK003
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Charlie Davis
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Post-Construction Cleanup
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      2025-07-26, 09:00 AM
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="badge completed">Completed</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div class="flex justify-end space-x-2">
+                        <a
+                          href="view-booking.html?id=3"
+                          class="table-action-btn view"
+                          title="View Booking"
+                        >
+                          <i class="fas fa-eye text-base text-white"></i>
+                        </a>
+                        <a
+                          href="edit-booking.html?id=3"
+                          class="table-action-btn edit"
+                          title="Edit Booking"
+                        >
+                          <i class="fas fa-edit text-base text-white"></i>
+                        </a>
+                        <button
+                          onclick="confirmDeleteBooking('BK003', 'Charlie Davis')"
+                          class="table-action-btn delete"
+                          title="Delete Booking"
+                        >
+                          <i class="fas fa-trash-alt text-base text-white"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-dark-high">
+                      #BK004
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Diana Prince
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      Window Cleaning
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark-medium">
+                      2025-07-30, 01:00 PM
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="badge cancelled">Cancelled</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div class="flex justify-end space-x-2">
+                        <a
+                          href="view-booking.html?id=4"
+                          class="table-action-btn view"
+                          title="View Booking"
+                        >
+                          <i class="fas fa-eye text-base text-white"></i>
+                        </a>
+                        <a
+                          href="edit-booking.html?id=4"
+                          class="table-action-btn edit"
+                          title="Edit Booking"
+                        >
+                          <i class="fas fa-edit text-base text-white"></i>
+                        </a>
+                        <button
+                          onclick="confirmDeleteBooking('BK004', 'Diana Prince')"
+                          class="table-action-btn delete"
+                          title="Delete Booking"
+                        >
+                          <i class="fas fa-trash-alt text-base text-white"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+
+            <div class="mt-10 flex justify-center space-x-2">
+              <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">Previous</button>
+              <button class="px-4 py-2 bg-primary text-white rounded-md">1</button>
+              <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">2</button>
+              <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">3</button>
+              <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">Next</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,
+        once: true,
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+        const sidebar = document.getElementById("sidebar");
+        const sidebarCloseBtn = document.getElementById("sidebar-close-btn");
+        const liveDatetimeElement = document.getElementById("live-datetime");
+        const bodyElement = document.body;
+
+        const sidebarOverlay = document.createElement("div");
+        sidebarOverlay.id = "sidebar-overlay";
+        sidebarOverlay.classList.add(
+          "fixed",
+          "inset-0",
+          "bg-black",
+          "bg-opacity-50",
+          "z-[980]",
+          "hidden",
+          "md:hidden"
+        );
+        document.body.appendChild(sidebarOverlay);
+
+        function updateLiveDatetime() {
+          const now = new Date();
+          const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+          };
+          const localTime = now.toLocaleString("en-US", {
+            timeZone: "Asia/Dhaka", // Current location: Narsingdi, Dhaka Division, Bangladesh
+            ...options,
+          });
+          if (liveDatetimeElement) {
+            liveDatetimeElement.textContent = localTime;
+          }
+        }
+
+        setInterval(updateLiveDatetime, 1000);
+        updateLiveDatetime();
+
+        const toggleSidebar = () => {
+          const isOpen = sidebar.classList.contains("mobile-open");
+
+          if (isOpen) {
+            sidebar.classList.remove("mobile-open");
+            sidebar.classList.add("mobile-closed");
+            sidebarOverlay.classList.add("hidden");
+            bodyElement.classList.remove("body-no-scroll");
+          } else {
+            sidebar.classList.remove("mobile-closed");
+            sidebar.classList.add("mobile-open");
+            sidebarOverlay.classList.remove("hidden");
+            bodyElement.classList.add("body-no-scroll");
+          }
+        };
+
+        if (sidebarToggleBtn) {
+          sidebarToggleBtn.addEventListener("click", toggleSidebar);
+        }
+
+        if (sidebarCloseBtn) {
+          sidebarCloseBtn.addEventListener("click", toggleSidebar);
+        }
+
+        if (sidebarOverlay) {
+          sidebarOverlay.addEventListener("click", toggleSidebar);
+        }
+
+        const handleResize = () => {
+          if (window.innerWidth >= 768) {
+            sidebar.classList.remove("mobile-hide", "mobile-closed");
+            sidebar.classList.add("mobile-open", "md:flex", "md:translate-x-0");
+            sidebarOverlay.classList.add("hidden");
+            bodyElement.classList.remove("body-no-scroll");
+          } else {
+            if (!sidebar.classList.contains("mobile-open")) {
+              sidebar.classList.add("mobile-closed");
+            }
+            sidebar.classList.remove("md:flex", "md:translate-x-0");
+          }
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize();
+
+        // Custom function for delete confirmation
+        window.confirmDeleteBooking = function(bookingId, clientName) {
+            if (confirm(`Are you sure you want to delete booking ${bookingId} for ${clientName}?`)) {
+                // Here you would typically send an AJAX request to delete the booking
+                alert(`Booking ${bookingId} for ${clientName} has been (simulated) deleted.`);
+                // In a real application, you would then remove the table row from the DOM
+            }
+        };
+      });
+    </script>
+  </body>
+</html>
