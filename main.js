@@ -149,3 +149,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+  // New Testimonial Swiper (Updated for 3 slides on desktop)
+  var testimonialSwiper = new Swiper(".testimonial-swiper", {
+    loop: true,
+    slidesPerView: 1,
+    spaceBetween: 30,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      768: {
+        // ট্যাবলেট স্ক্রিনের জন্য
+        slidesPerView: 2,
+        spaceBetween: 30,
+      },
+      1024: {
+        // ডেস্কটপ স্ক্রিনের জন্য
+        slidesPerView: 3,
+        spaceBetween: 30,
+      },
+    },
+  });
